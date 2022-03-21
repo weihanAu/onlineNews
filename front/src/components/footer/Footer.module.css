@@ -1,0 +1,31 @@
+
+.footer__section {
+  background-color: #3b0062;
+  position: fixed;
+  bottom: 0.5rem;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  color: white;
+}
+
+.content__section{
+  width:80%;
+  margin: auto;
+}
+
+.nav{
+  color: white;
+  text-decoration: none;
+  display:inline;
+  margin: 0 1rem 0 0;
+  border-left: 1px white solid;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.nav_container{
+  display: flex;
+  justify-content: flex-end;
+}
