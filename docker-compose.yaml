@@ -8,13 +8,15 @@ services:
       - "3000:3000"
     volumes:
       - ./front:/app
-    stdin_open: true
-    tty: true  
+    stdin_open: "true"
+    tty: "true"  
     depends_on: 
       - express
 
   express:
    build: ./backend
+   environment:
+     CHOKIDAR_USEPOLLING: "true" 
    ports:
      - "8080:8080"
    volumes:
