@@ -4,6 +4,8 @@ services:
     build: ./front
     environment:
       CHOKIDAR_USEPOLLING: "true" 
+      Client_ID: "34327815257-m1nqq62fjp41m8oa0pktcmnefand8rj9.apps.googleusercontent.com"
+      Client_secret: "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"
     ports:
       - "3000:3000"
     volumes:

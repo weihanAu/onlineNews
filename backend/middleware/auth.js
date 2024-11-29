@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
+  // is loggin by google sso?
+  // custom login
   const authHeader = req.get('Authorization');
   if (!authHeader) {
    req.isAuth=false;

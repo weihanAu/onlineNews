@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
+import Logout from '../../auth0Logout/Logout'
 import './NavigationItems.css';
 
 const navItems = [
@@ -22,7 +22,8 @@ const navigationItems = props => [
   )),
   props.isAuth && (
     <li className="navigation-item" key="logout">
-      <button onClick={props.onLogout}>Logout</button>
+      {/* <button onClick={props.onLogout}>Logout</button> */}
+      <Logout />
     </li>
   )
 ];

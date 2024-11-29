@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { withAuth0 } from "@auth0/auth0-react";
 
 import Layout from './components/Layout/Layout';
 import Backdrop from './components/Backdrop/Backdrop';
@@ -14,6 +15,7 @@ import SignupPage from './pages/Auth/Signup';
 import './App.css';
 import Footer from './components/footer/Footer';
 
+
 class App extends Component {
   state = {
     showBackdrop: false,
@@ -24,6 +26,7 @@ class App extends Component {
     authLoading: false,
     error: null
   };
+ 
 
   componentDidMount() {
     const token = localStorage.getItem('token');
@@ -170,7 +173,28 @@ class App extends Component {
     this.setState({ error: null });
   };
 
+
+ componentDidUpdate(prevProps) {
+  const { user, isAuthenticated, isLoading } = this.props.auth0;
+  // 仅当认证状态或用户信息发生变化时才更新 state
+  if (isAuthenticated && !isLoading && user && (this.state.userId !== user.sub)) {
+      // 仅在 token 或 userId 发生变化时更新状态
+      this.props.auth0.getAccessTokenSilently().then(accessToken => {
+        console.log(accessToken)
+      
+        this.setState({
+          token: accessToken,
+          userId: user.sub,
+          isAuth: true,
+          authLoading: false,
+        });
+      });
+    }
+  }
+
+
   render() {
+
     let routes = (
       <Switch>
         <Route
@@ -181,6 +205,7 @@ class App extends Component {
               {...props}
               onLogin={this.loginHandler}
               loading={this.state.authLoading}
+              auth0login={this.auth0loginHandler}
             />
           )}
         />
@@ -255,4 +280,4 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default withRouter(withAuth0(App));

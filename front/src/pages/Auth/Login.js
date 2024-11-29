@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import Input from '../../components/Form/Input/Input';
-import Button from '../../components/Button/Button';
 import { required, length, email } from '../../util/validators';
 import Auth from './Auth';
+import Aut0Button from '../../components/auth0Button/index'
 
 class Login extends Component {
   state = {
@@ -63,7 +63,9 @@ class Login extends Component {
     });
   };
 
+  
   render() {
+
     return (
       <Auth>
         <form
@@ -96,10 +98,8 @@ class Login extends Component {
             valid={this.state.loginForm['password'].valid}
             touched={this.state.loginForm['password'].touched}
           />
-          <Button design="raised" type="submit" loading={this.props.loading}>
-            Login
-          </Button>
         </form>
+        <Aut0Button/>
       </Auth>
     );
   }

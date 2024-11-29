@@ -114,6 +114,7 @@ module.exports = {
     }
   },
   getPosts:async({page},req)=>{
+   
     if(!req.isAuth){
       const err = new Error('you are not loged in');
       err.code = 401;

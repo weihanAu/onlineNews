@@ -34,7 +34,6 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
 app.use(bodyParser.json()); // application/json
 //image file multer
