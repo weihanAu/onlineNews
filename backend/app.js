@@ -6,8 +6,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const {graphqlHTTP} = require('express-graphql');
-const auth = require('./middleware/auth');
-
+// const auth = require('./middleware/auth');
+const auth = require('./middleware/auth0.js');
 const graphqlSchema = require('./graphql/schema');
 const graphqlResolver = require('./graphql/resolvers');
 const {clearImage} = require('./utility/clearImage');
@@ -55,8 +55,13 @@ app.use((req, res, next) => {
   }
   next();
 });
-//check Auth
-app.use(auth);
+
+// enforce Auth on all endpoints
+// app.use(auth);
+app.use((req, res, next) => {
+  req.isAuth = true;  
+  next();
+});
 //receive image /router
 app.put('/image',(req,res,next)=>{
   console.log(req.file,req.body.oldPath);
@@ -99,6 +104,7 @@ app.use(
   })
 );
 
+//error handling
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;

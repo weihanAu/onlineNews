@@ -15,6 +15,20 @@ services:
     depends_on: 
       - express
 
+  react2:
+    build: ./front2
+    environment:
+      CHOKIDAR_USEPOLLING: "true" 
+      Client_ID: "34327815257-m1nqq62fjp41m8oa0pktcmnefand8rj9.apps.googleusercontent.com"
+      Client_secret: "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"
+      PORT: "3080"
+    ports:
+      - "3080:3080"
+    volumes:
+      - ./front2:/app
+    stdin_open: "true"
+    tty: "true"  
+
   express:
    build: ./backend
    environment:

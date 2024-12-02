@@ -12,7 +12,9 @@ ReactDOM.render(
     domain="dev-8isqtq4d4y417z1b.us.auth0.com"
     clientId="y803EC0ows63rQnJ899VZZg74SbB1kF1"
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: window.location.origin,
+      audience: "verysafe",
+      scope: "openid profile email"
     }}
   >
     <App/>

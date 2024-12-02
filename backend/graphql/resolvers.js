@@ -220,7 +220,11 @@ module.exports = {
       throw err;
     };
     const user = await User.findById(req.userId);
-    return user.status;
+    let message='hello'
+    if(user){
+       message = user.status;
+    }
+    return message;
   },
   setStatus:async({status},req)=>{
     if(!req.isAuth){

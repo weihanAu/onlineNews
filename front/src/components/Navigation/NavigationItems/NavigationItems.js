@@ -4,9 +4,8 @@ import Logout from '../../auth0Logout/Logout'
 import './NavigationItems.css';
 
 const navItems = [
-  { id: 'feed', text: 'Feed', link: '/', auth: true },
-  { id: 'login', text: 'Login', link: '/', auth: false },
-  { id: 'signup', text: 'Signup', link: '/signup', auth: false }
+  // { id: 'feed', text: 'Feed', link: '/', auth: true },
+  // { id: 'signup', text: 'Signup', link: '/signup', auth: false }
 ];
 
 const navigationItems = props => [
@@ -21,10 +20,7 @@ const navigationItems = props => [
     </li>
   )),
   props.isAuth && (
-    <li className="navigation-item" key="logout">
-      {/* <button onClick={props.onLogout}>Logout</button> */}
-      <Logout />
-    </li>
+    <Logout />
   )
 ];
 

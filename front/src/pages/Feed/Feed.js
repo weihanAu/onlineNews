@@ -82,6 +82,8 @@ class Feed extends Component {
       variables:{page:page}
     };
     fetch('http://localhost:8080/graphql', {
+      
+
       headers: {
         Authorization: 'Bearer ' + this.props.token,
         "Content-Type":"application/json"

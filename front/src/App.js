@@ -10,7 +10,6 @@ import MobileNavigation from './components/Navigation/MobileNavigation/MobileNav
 import ErrorHandler from './components/ErrorHandler/ErrorHandler';
 import FeedPage from './pages/Feed/Feed';
 import SinglePostPage from './pages/Feed/SinglePost/SinglePost';
-import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
 import './App.css';
 import Footer from './components/footer/Footer';
@@ -24,26 +23,27 @@ class App extends Component {
     token: null,
     userId: null,
     authLoading: false,
-    error: null
+    error: null,
+    name:null
   };
  
 
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    const expiryDate = localStorage.getItem('expiryDate');
-    if (!token || !expiryDate) {
-      return;
-    }
-    if (new Date(expiryDate) <= new Date()) {
-      this.logoutHandler();
-      return;
-    }
-    const userId = localStorage.getItem('userId');
-    const remainingMilliseconds =
-      new Date(expiryDate).getTime() - new Date().getTime();
-    this.setState({ isAuth: true, token: token, userId: userId });
-    this.setAutoLogout(remainingMilliseconds);
-  }
+  // componentDidMount() {
+  //   const token = localStorage.getItem('token');
+  //   const expiryDate = localStorage.getItem('expiryDate');
+  //   if (!token || !expiryDate) {
+  //     return;
+  //   }
+  //   if (new Date(expiryDate) <= new Date()) {
+  //     this.logoutHandler();
+  //     return;
+  //   }
+  //   const userId = localStorage.getItem('userId');
+  //   const remainingMilliseconds =
+  //     new Date(expiryDate).getTime() - new Date().getTime();
+  //   this.setState({ isAuth: true, token: token, userId: userId });
+  //   this.setAutoLogout(remainingMilliseconds);
+  // }
 
   mobileNavHandler = isOpen => {
     this.setState({ showMobileNav: isOpen, showBackdrop: isOpen });
@@ -175,23 +175,28 @@ class App extends Component {
 
 
  componentDidUpdate(prevProps) {
-  const { user, isAuthenticated, isLoading } = this.props.auth0;
-  // 仅当认证状态或用户信息发生变化时才更新 state
-  if (isAuthenticated && !isLoading && user && (this.state.userId !== user.sub)) {
-      // 仅在 token 或 userId 发生变化时更新状态
-      this.props.auth0.getAccessTokenSilently().then(accessToken => {
-        console.log(accessToken)
-      
+  const { user, isAuthenticated, isLoading,getAccessTokenSilently,getIdTokenClaims } = this.props.auth0;
+   
+    if(isAuthenticated && !isLoading && !this.state.isAuth){
+       getAccessTokenSilently().then(accToken=>{
+        console.log(accToken)
         this.setState({
-          token: accessToken,
-          userId: user.sub,
+          showBackdrop: false,
+          showMobileNav: false,
           isAuth: true,
+          token: accToken,
+          userId: null,
           authLoading: false,
+          name:JSON.stringify(user)
         });
-      });
+       }).catch();
     }
+
   }
 
+ componentDidMount(){
+  
+ }
 
   render() {
 
@@ -201,12 +206,8 @@ class App extends Component {
           path="/"
           exact
           render={props => (
-            <LoginPage
-              {...props}
-              onLogin={this.loginHandler}
-              loading={this.state.authLoading}
-              auth0login={this.auth0loginHandler}
-            />
+            <h1>welcome to news feed</h1>
+            
           )}
         />
         <Route
@@ -220,7 +221,6 @@ class App extends Component {
             />
           )}
         />
-        <Redirect to="/" />
       </Switch>
     );
     if (this.state.isAuth) {
@@ -243,7 +243,6 @@ class App extends Component {
               />
             )}
           />
-          <Redirect to="/" />
         </Switch>
       );
     }
@@ -274,6 +273,7 @@ class App extends Component {
           }
         />
         {routes}
+        {`hello: ${this.state.name}`}
        <Footer/>
       </Fragment>
     );
